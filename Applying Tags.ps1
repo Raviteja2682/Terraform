@@ -1,5 +1,5 @@
 # Set the target subscription
-$subscriptionId = "6c03a441-b7a1-4699-917a-f99c751d42e8"
+$subscriptionId = "70c26b10-cb3a-45ae-934b-b9bae43abee8"
 Set-AzContext -SubscriptionId $subscriptionId
 
 # Define the tags to apply
