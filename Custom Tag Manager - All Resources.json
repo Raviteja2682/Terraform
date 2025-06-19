@@ -1,0 +1,25 @@
+{
+    "properties": {
+        "roleName": "Custom Tag Manager - All Resources",
+        "description": "Can add or remove tags for all resources in Azure without permission to delete resources.",
+        "assignableScopes": [
+            "/providers/Microsoft.Management/managementGroups/f84313aa-da60-4b45-be6d-4591b3c91113"
+        ],
+        "permissions": [
+            {
+                "actions": [
+                    "Microsoft.Resources/tags/*",
+                    "Microsoft.Resources/subscriptions/resourceGroups/read",
+                    "Microsoft.Resources/subscriptions/resourceGroups/write",
+                    "*/read",
+                    "*/write"
+                ],
+                "notActions": [
+                    "*/delete"
+                ],
+                "dataActions": [],
+                "notDataActions": []
+            }
+        ]
+    }
+}
