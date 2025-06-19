@@ -4,7 +4,7 @@ Set-AzContext -SubscriptionId $subscriptionId
 
 # Define the tags to apply
 $tags = @{
-    "BU" = "Zawayam"
+    "BU" = "Naukari"
     "SBU"  = ""
 }
 
