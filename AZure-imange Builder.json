@@ -1,0 +1,85 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "imageTemplates_TESTAIM_name": {
+            "defaultValue": "TESTAIM",
+            "type": "String"
+        },
+        "galleries_test_externalid": {
+            "defaultValue": "/subscriptions/c28040d2-c232-4150-8299-a9fe33fa6aa1/resourceGroups/test/providers/Microsoft.Compute/galleries/test",
+            "type": "String"
+        },
+        "userAssignedIdentities_TESTID_externalid": {
+            "defaultValue": "/subscriptions/c28040d2-c232-4150-8299-a9fe33fa6aa1/resourceGroups/test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TESTID",
+            "type": "String"
+        },
+        "virtualNetworks_test_vnet_externalid": {
+            "defaultValue": "/subscriptions/c28040d2-c232-4150-8299-a9fe33fa6aa1/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/test-vnet",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2024-02-01",
+            "name": "[parameters('imageTemplates_TESTAIM_name')]",
+            "location": "centralindia",
+            "tags": {
+                "Owner": "Ravi"
+            },
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/c28040d2-c232-4150-8299-a9fe33fa6aa1/resourceGroups/test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TESTID": {}
+                }
+            },
+            "properties": {
+                "buildTimeoutInMinutes": 0,
+                "distribute": [
+                    {
+                        "artifactTags": {},
+                        "excludeFromLatest": false,
+                        "galleryImageId": "[concat(parameters('galleries_test_externalid'), '/images/TESTVMDAIM')]",
+                        "replicationRegions": [
+                            "centralindia"
+                        ],
+                        "runOutputName": "runOutputImageVersion",
+                        "type": "SharedImage"
+                    }
+                ],
+                "optimize": {
+                    "vmBoot": {
+                        "state": "Enabled"
+                    }
+                },
+                "source": {
+                    "imageVersionId": "[concat(parameters('galleries_test_externalid'), '/images/testvmd/versions/latest')]",
+                    "type": "SharedImageVersion"
+                },
+                "vmProfile": {
+                    "osDiskSizeGB": 32,
+                    "userAssignedIdentities": [
+                        "[parameters('userAssignedIdentities_TESTID_externalid')]"
+                    ],
+                    "vmSize": "Standard_B2s",
+                    "vnetConfig": {
+                        "subnetId": "[concat(parameters('virtualNetworks_test_vnet_externalid'), '/subnets/default')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.VirtualMachineImages/imageTemplates/triggers",
+            "apiVersion": "2024-02-01",
+            "name": "[concat(parameters('imageTemplates_TESTAIM_name'), '/SourceImage-241750749219208')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.VirtualMachineImages/imageTemplates', parameters('imageTemplates_TESTAIM_name'))]"
+            ],
+            "properties": {
+                "kind": "SourceImage"
+            }
+        }
+    ]
+}
