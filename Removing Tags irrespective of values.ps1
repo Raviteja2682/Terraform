@@ -1,5 +1,5 @@
 # Set the target subscription
-$subscriptionId = "f84313aa-da60-4b45-be6d-4591b3c91113"
+$subscriptionId = "fe3678c4-47d5-4f3a-9214-a78ac6f51aae"
 Set-AzContext -SubscriptionId $subscriptionId
 
 # Get all resource groups in the subscription
